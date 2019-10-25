@@ -1,0 +1,20 @@
+{
+  "name": "babel-plugin-jsx-wapper",
+  "version": "0.1.0",
+  "description": "jsx wrapper",
+  "author": {
+    "name": "king",
+    "email": "117745900@qq.com"
+  },
+  "main": "src/index.js",
+  "keywords": [
+    "react",
+    "jsx",
+    "babel",
+    "wrapper"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.1.2"
+  }
+}
