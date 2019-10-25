@@ -8,7 +8,7 @@
 ```js
 plugins: [
     [
-        require.resolve("babel-plugin-jsx-control-statements"),
+        require.resolve("babel-plugin-jsx-wapper"),
         {
             idField: "componentId",
             wrapper: "Authorized",
