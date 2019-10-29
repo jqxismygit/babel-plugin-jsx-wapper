@@ -39,8 +39,12 @@ module.exports = function(babel) {
             types.jsxIdentifier(idField),
             types.stringLiteral(generatedId)
           );
+
+          //把id属性传递给子组件
+          path.node.openingElement.attributes.push(idAttribute);
+
           //把自动分配ID的组件输出到一个文件
-          if (process.env.NODE_ENV === "production") {
+          if (process.env.NODE_ENV === "production" && output) {
             fs.writeFileSync(
               pwd + output,
               generatedId + "\n",
