@@ -1,6 +1,6 @@
-const nodePath = require("path");
-const uuidv4 = require("uuid/v4");
-const fs = require("fs");
+const nodePath = require('path');
+const uuidv4 = require('uuid/v4');
+const fs = require('fs');
 const pwd = process.env.PWD;
 
 module.exports = function(babel) {
@@ -11,14 +11,13 @@ module.exports = function(babel) {
       const { idField, wrapper, wrapped, output } = state.opts;
 
       if (!idField || !wrapper || !wrapped) {
-        throw new Error("插件参数不正确");
+        throw new Error('插件参数不正确');
       }
 
       const nodeName = path.node.openingElement.name.name;
 
       const parentNodeName =
-        parentPath.node.openingElement &&
-        parentPath.node.openingElement.name.name;
+        parentPath.node.openingElement && parentPath.node.openingElement.name.name;
 
       if (wrapped.indexOf(nodeName) > -1 && parentNodeName !== wrapper) {
         const filename = path.hub.file.opts.filename;
@@ -34,44 +33,42 @@ module.exports = function(babel) {
           }, null);
 
         if (!idAttribute) {
-          const generatedId = fileParsed.name + "-" + uuidv4();
+          const generatedId = fileParsed.name + '-' + uuidv4();
           idAttribute = types.jsxAttribute(
             types.jsxIdentifier(idField),
-            types.stringLiteral(generatedId)
+            types.stringLiteral(generatedId),
           );
 
           //把id属性传递给子组件
-          path.node.openingElement.attributes.push(idAttribute);
+          //把传递给子组件的属性改成小写，不然react可能会报错
+          idAttributeLowerCase = types.jsxAttribute(
+            types.jsxIdentifier(idField.toLowerCase()),
+            types.stringLiteral(generatedId),
+          );
+          path.node.openingElement.attributes.push(idAttributeLowerCase);
 
           //把自动分配ID的组件输出到一个文件
-          if (process.env.NODE_ENV === "production" && output) {
-            fs.writeFileSync(
-              pwd + output,
-              generatedId + "\n",
-              { flag: "a" },
-              function(err) {
-                if (err) {
-                  throw err;
-                }
+          if (process.env.NODE_ENV === 'production' && output) {
+            fs.writeFileSync(pwd + output, generatedId + '\n', { flag: 'a' }, function(err) {
+              if (err) {
+                throw err;
               }
-            );
+            });
           }
         }
 
         path.replaceWith(
           types.jsxElement(
-            types.jSXOpeningElement(types.jSXIdentifier(wrapper), [
-              idAttribute
-            ]),
+            types.jSXOpeningElement(types.jSXIdentifier(wrapper), [idAttribute]),
             types.jSXClosingElement(types.jSXIdentifier(wrapper)),
-            [path.node]
-          )
+            [path.node],
+          ),
         );
       }
-    }
+    },
   };
 
   return {
-    visitor: visitor
+    visitor: visitor,
   };
 };
