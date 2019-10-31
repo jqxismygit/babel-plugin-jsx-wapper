@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-jsx-wapper",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "jsx wrapper",
   "author": {
     "name": "king",
@@ -13,6 +13,10 @@
     "babel",
     "wrapper"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jqxismygit/babel-plugin-jsx-wapper"
+  },
   "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.1.2"
